@@ -483,7 +483,9 @@ class Response extends Message implements ResponseDescription
 
         while (trim($body)) {
             if (! preg_match("/^([\da-fA-F]+)[^\r\n]*\r\n/sm", $body, $m)) {
-                throw new Exception\RuntimeException("Error parsing body - doesn't seem to be a chunked message");
+                //throw new Exception\RuntimeException("Error parsing body - doesn't seem to be a chunked message");
+                // rather than blow up, just return the content we have
+                return $decBody . $body;
             }
 
             $length = hexdec(trim($m[1]));
